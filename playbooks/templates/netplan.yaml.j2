@@ -1,0 +1,22 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    upstream-if:
+      match:
+        macaddress: {{ upstream_mac }}
+      addresses:
+      - {{ upstream_ip }}/{{ upstream_cidr_length }}
+      routes:
+      - to: default
+        via: {{ upstream_gw }}
+      nameservers:
+        addresses: 
+          {{ upstream_dns | to_nice_yaml }}
+
+    storage-if:
+      match:
+        macaddress: {{ storage_mac }}
+      addresses:
+      - {{ storage_ip }}/{{ storage_cidr_length }}
+      mtu: {{ storage_mtu }}

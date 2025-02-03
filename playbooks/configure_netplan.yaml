@@ -1,0 +1,37 @@
+- name: Configure Netplan on worker nodes
+  hosts: workers
+  become: true
+  tasks:
+    - name: Ensure Netplan directory exists
+      ansible.builtin.file:
+        path: /etc/netplan/
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Remove all other Netplan files except 01-netcfg.yaml
+      ansible.builtin.find:
+        paths: /etc/netplan/
+        patterns: "*"
+        file_type: file
+      register: netplan_files
+
+    - name: Delete unwanted Netplan files
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ netplan_files.files }}"
+      when: item.path != "/etc/netplan/01-netcfg.yaml"
+
+    - name: Generate Netplan configuration
+      ansible.builtin.template:
+        src: netplan.yaml.j2
+        dest: /etc/netplan/01-netcfg.yaml
+        owner: root
+        group: root
+        mode: '0600'
+
+    - name: Apply Netplan configuration
+      ansible.builtin.command: netplan apply
+      changed_when: false

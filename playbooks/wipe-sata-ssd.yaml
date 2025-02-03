@@ -1,0 +1,14 @@
+---
+- name: Wipe the SSD's to prepare for ceph reinstall
+  hosts: workers
+  become: true
+  serial: 1
+  tasks:
+    - name: Prompt for confirmation
+      ansible.builtin.pause:
+        prompt: "Are you sure you want to overwrite {{ inventory_hostname }}'s /dev/sda? Type 'yes' to proceed."
+      register: confirmation
+
+    - name: Run dd to write zeroes to /dev/sda  # noqa no-changed-when
+      ansible.builtin.command: "dd if=/dev/zero of=/dev/sda bs=4k count=1k"
+      when: confirmation.user_input == 'yes'
