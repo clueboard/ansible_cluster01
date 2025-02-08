@@ -1,0 +1,30 @@
+---
+- name: Initialize Kubernetes cluster with kubeadm
+  hosts: kcontrol
+  become: yes
+  tasks:
+    - name: Run kubeadm init with custom parameters
+      ansible.builtin.command:
+        cmd: >
+          kubeadm init
+          --apiserver-advertise-address 172.16.20.1
+          --pod-network-cidr 172.16.0.0/20
+          --service-cidr 172.16.16.0/22
+          --service-dns-domain cluster01.frop.org
+      register: kubeadm_init_result
+      ignore_errors: yes
+
+    - name: Save kubeadm init join command
+      ansible.builtin.set_fact:
+        kubeadm_join_command: "{{ kubeadm_init_result.stdout | regex_search('kubeadm join .*') }}"
+
+    - name: Show the join command
+      ansible.builtin.debug:
+        msg: "Use this command to join other nodes: {{ kubeadm_join_command }}"
+
+    - name: Configure kubeconfig for kubectl
+      ansible.builtin.shell: |
+        mkdir -p $HOME/.kube
+        cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+        chown $(id -u):$(id -g) $HOME/.kube/config
+      when: kubeadm_init_result.rc == 0

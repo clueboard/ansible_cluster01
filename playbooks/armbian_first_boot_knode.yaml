@@ -1,2 +1,2 @@
 - ansible.builtin.import_playbook: armbian_first_boot.yaml
-- ansible.builtin.import_playbook: packages-knodes.yaml
+- ansible.builtin.import_playbook: packages-kubernetes.yaml
