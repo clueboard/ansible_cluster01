@@ -1,0 +1,29 @@
+- name: Configure sshd
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure sshd configuration file is set up
+      copy:
+        dest: /etc/ssh/sshd_config
+        content: |
+          PermitRootLogin no
+          PubkeyAuthentication yes
+          PasswordAuthentication no
+          KbdInteractiveAuthentication no
+          UsePAM yes
+          X11Forwarding yes
+          PrintMotd no
+          AcceptEnv LANG LC_*
+          Subsystem       sftp    /usr/lib/openssh/sftp-server
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Restart sshd
+
+  handlers:
+    - name: Restart sshd
+      service:
+        name: sshd
+        state: restarted
+

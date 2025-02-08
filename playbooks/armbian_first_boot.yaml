@@ -1,0 +1,11 @@
+- ansible.builtin.import_playbook: set-hostname.yaml
+- ansible.builtin.import_playbook: sysctls.yaml
+- ansible.builtin.import_playbook: disable-swap.yaml
+- ansible.builtin.import_playbook: configure_netplan.yaml
+- ansible.builtin.import_playbook: apt-docker.yaml
+- ansible.builtin.import_playbook: apt-kubernetes.yaml
+- ansible.builtin.import_playbook: packages.yaml
+- ansible.builtin.import_playbook: etc-default-rwhod.yaml
+- ansible.builtin.import_playbook: etc-hosts.yaml
+- ansible.builtin.import_playbook: etc-ssh-sshd_config.yaml
+- ansible.builtin.import_playbook: etc-sudoers.yaml

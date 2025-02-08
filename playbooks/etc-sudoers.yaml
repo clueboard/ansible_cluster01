@@ -1,0 +1,21 @@
+---
+- name: Manage sudoers file
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure sudoers file has the required rules
+      copy:
+        dest: /etc/sudoers
+        content: |
+          Defaults    env_reset
+          Defaults    mail_badpass
+          Defaults    secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          Defaults    use_pty
+          
+          root    ALL=(ALL:ALL) ALL
+          %sudo   ALL=(ALL:ALL) NOPASSWD: ALL
+        owner: root
+        group: root
+        mode: '0440'
+        validate: '/sbin/visudo -cf %s'

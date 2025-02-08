@@ -1,0 +1,31 @@
+- name: Install and remove packages
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - dnsutils
+          - ethtool
+          - file
+          - git
+          - iptables
+          - net-tools
+          - python3.11-venv
+          - python3-build
+          - python3-pip
+          - rwhod
+          - rwho
+          - speedtest-cli
+          - sqlite3
+          - tcpdump
+          - thefuck
+          - vim
+        state: present
+        update_cache: yes
+
+    - name: Remove unwanted packages
+      apt:
+        name: nano
+        state: absent

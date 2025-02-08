@@ -1,5 +1,5 @@
 - name: Configure Netplan on worker nodes
-  hosts: workers
+  hosts: knodes
   become: true
   tasks:
     - name: Ensure Netplan directory exists

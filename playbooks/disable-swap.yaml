@@ -1,0 +1,14 @@
+---
+- name: Disable swap on all hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: Turn off swap
+      ansible.builtin.shell: "swapoff -a"
+      when: ansible_facts.swaps is defined
+
+    - name: Remove swap from fstab
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        regexp: '^.*swap.*'
+        state: absent

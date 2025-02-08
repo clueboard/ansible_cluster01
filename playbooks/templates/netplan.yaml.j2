@@ -2,17 +2,17 @@ network:
   version: 2
   renderer: networkd
   ethernets:
-    upstream-if:
+    cluster-if:
       match:
-        macaddress: {{ upstream_mac }}
+        macaddress: {{ cluster_mac }}
       addresses:
-      - {{ upstream_ip }}/{{ upstream_cidr_length }}
+      - {{ cluster_ip }}/{{ cluster_cidr_length }}
       routes:
       - to: default
-        via: {{ upstream_gw }}
+        via: {{ cluster_gw }}
       nameservers:
         addresses: 
-          {{ upstream_dns | to_nice_yaml }}
+          {{ cluster_dns | to_nice_yaml }}
 
     storage-if:
       match:

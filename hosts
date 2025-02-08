@@ -1,3 +1,15 @@
+servers:
+  hosts:
+    k8s-monitor.cluster01.frop.org:
+      cluster_mac: "6c:1f:f7:19:fe:43"
+      cluster_ip: 172.16.20.1
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    cluster_gw: 172.16.20.1
+    cluster_dns: [172.16.20.1]
+    cluster_cidr_length: 23
+    cluster_netmask: 255.255.254.0
+
 kcontrol:
   hosts:
     k8s-control.cluster01.frop.org:
@@ -17,23 +29,23 @@ kcontrol:
 knodes:
   hosts:
     orange01.cluster01.frop.org:
-      upstream_mac: c0:74:2b:fd:ea:29
-      upstream_ip: 172.16.20.11
+      cluster_mac: c0:74:2b:fd:ea:29
+      cluster_ip: 172.16.20.11
       storage_mac: c0:74:2b:fd:ea:28
       storage_ip: 172.16.18.1
     orange02.cluster01.frop.org:
-      upstream_mac: c0:74:2b:fd:8a:ff
-      upstream_ip: 172.16.20.12
+      cluster_mac: c0:74:2b:fd:8a:ff
+      cluster_ip: 172.16.20.12
       storage_mac: c0:74:2b:fd:8a:fe
       storage_ip: 172.16.18.2
     orange03.cluster01.frop.org:
-      upstream_mac: c0:74:2b:fd:e4:ae
-      upstream_ip: 172.16.20.13
+      cluster_mac: c0:74:2b:fd:e4:ae
+      cluster_ip: 172.16.20.13
       storage_mac: c0:74:2b:fd:e4:af
       storage_ip: 172.16.18.3
     orange04.cluster01.frop.org:
-      upstream_mac: c0:74:2b:fd:af:fb
-      upstream_ip: 172.16.20.14
+      cluster_mac: c0:74:2b:fd:af:fb
+      cluster_ip: 172.16.20.14
       storage_mac: c0:74:2b:fd:af:fa
       storage_ip: 172.16.18.4
   vars:
@@ -41,7 +53,7 @@ knodes:
     storage_mtu: 9000
     storage_cidr_length: 23
     storage_netmask: 255.255.254.0
-    upstream_gw: 172.16.20.1
-    upstream_dns: [172.16.20.1]
-    upstream_cidr_length: 23
-    upstream_netmask: 255.255.254.0
+    cluster_gw: 172.16.20.1
+    cluster_dns: [172.16.20.1]
+    cluster_cidr_length: 23
+    cluster_netmask: 255.255.254.0

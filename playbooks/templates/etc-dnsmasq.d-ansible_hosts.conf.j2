@@ -1,0 +1,4 @@
+# Static IP assignments for ansible managed hosts
+{% for host in groups['all'] | sort %}
+dhcp-host={{ hostvars[host]['cluster_mac'] }},{{ hostvars[host]['inventory_hostname_short'] }},{{ hostvars[host]['cluster_ip'] }},24h
+{% endfor %}

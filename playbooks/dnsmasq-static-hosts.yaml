@@ -1,0 +1,12 @@
+- name: Configure dnsmasq
+  hosts: kcontrol
+  become: yes
+
+  tasks:
+    - name: Generate dnsmasq config file with static IPs
+      template:
+        src: etc-dnsmasq.d-ansible_hosts.conf.j2
+        dest: /etc/dnsmasq.d/ansible_hosts.conf
+        owner: root
+        group: root
+        mode: '0644'

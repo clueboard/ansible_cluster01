@@ -1,0 +1,17 @@
+- name: Set RWHOD_OPTIONS for different groups and restart rwhod if necessary
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Set contents for knodes group
+      ansible.builtin.template:
+        src: etc-default-rwhod.j2
+        dest: /etc/default/rwhod
+      notify: Restart rwhod
+
+  handlers:
+    - name: Restart rwhod
+      ansible.builtin.systemd:
+        name: rwhod
+        state: restarted
+
